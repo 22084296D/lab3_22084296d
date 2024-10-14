@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>22084296D_Drink Ordering System</title>
+    <script src="scripts/jquery-3.7.1.min.js"></script>
+    <script src="scripts/order.js"></script>
+    <style>
+        .error{
+            border: 2px solid red;
+            box-shadow: 0 0 5px red; 
+        }
+        .error-free{
+            border: 2px solid green;
+            box-shadow: 0 0 5px green; 
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white text-center p-3">
+        Drink Ordering System
+    </header>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">   
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-primary" href="order.html">Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reserve.html">Reserve a Table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="menu.html">Menu</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <div class="container py-4">
+            <form id="order-form" method="POST">
+                <div class="row mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="row mb-3">
+                    <label for="drink" class="form-label">Drink:</label>
+                    <select class="form-select" id="drink" name="drink">
+                        <option selected>Please Select</option>
+                        <option value="1">Bubbild Milktea</option>
+                        <option value="2">Iced Latte</option>
+                        <option value="3">Pineapple Juice</option>
+                    </select>
+                </div>
+                <div class="row mb-3 d-none justify-content-center" id="drink-preview">
+                    <img id="drink-image" class="w-25" src="" alt="">
+                </div>
+                <div class="row mb-3 d-inline-block d-lg-flex">
+                    <div class="col d-flex d-lg-block">
+                        <label for="size" class="form-label">Size:</label>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="size" id="small" value="small" onchange="calculatePrice()">
+                            <label class="btn btn-outline-success mt-1" for="small">Small</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="size" id="medium" value="medium" onchange="calculatePrice()">
+                            <label class="btn btn-outline-success mt-1" for="medium">Medium</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="size" id="large" value="large" onchange="calculatePrice()">
+                            <label class="btn btn-outline-success mt-1" for="large">Large</label>
+                        </div>
+                    </div>             
+                    <div class="col d-flex d-lg-block">
+                        <label for="ice" class="form=label"></label>Ice:</label>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="ice" id="normal" value="normal">
+                            <label class="btn btn-outline-success mt-1" for="normal">Normal</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="ice" id="less" value="less">
+                            <label class="btn btn-outline-success mt-1" for="less">Less</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="ice" id="noice" value="noice">
+                            <label class="btn btn-outline-success mt-1" for="noice">Without Ice</label>
+                        </div>
+                    </div>
+                    <div class="col d-flex d-lg-block">
+                        <label for="sweetness" class="form=label"></label>Sweetness:</label>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="sweetness" id="full" value="full">
+                            <label class="btn btn-outline-success mt-1" for="full">100%</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="sweetness" id="half" value="half">
+                            <label class="btn btn-outline-success mt-1" for="half">50%</label>
+                        </div>
+                        <div class="mb-2 ms-2 ms-lg-0">
+                            <input type="radio" class="btn-check" name="sweetness" id="zero" value="zero">
+                            <label class="btn btn-outline-success mt-1" for="zero">0%</label>
+                        </div>
+                    </div>  
+                    </div>
+                    <div class="row mb-3"><h2 class="fw-bold">Price: $<span id="price">0</span></h2></div>
+                    <div class="row mb-3 d-none message"></div>
+                    <div class="mb-4">
+                        <input class="btn btn-success" type="button" value="Place Order" onclick="placeOrder(event)">
+                        <input class="btn btn-warning" type="reset" value="Reset">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="bg-dark p-3 text-center text-white fixed-bottom">&copy; 22084296D Yeung Chin To - EIE4432 Lab 3 Project
+    </footer>
+</body>
